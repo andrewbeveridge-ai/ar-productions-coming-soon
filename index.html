@@ -29,7 +29,7 @@
       pointer-events:none;
       transition:color .5s ease, opacity .4s ease, transform .4s ease, filter .4s ease;
     }
-    .float-icon.lit { opacity:.88!important; transform:scale(1.4)!important; }
+    .float-icon.lit { opacity:.88!important; }  /* scale set inline to avoid transition conflict */
     .float-icon svg { width:100%; height:100%; }
 
     .scene {
@@ -314,8 +314,8 @@ const floatIcons=[];(function(){
     ic.x+=ic.vx;ic.y+=ic.vy;
     if(ic.x<-40)ic.x=innerWidth+20;if(ic.x>innerWidth+40)ic.x=-20;
     if(ic.y<-40)ic.y=innerHeight+20;if(ic.y>innerHeight+40)ic.y=-20;
-    ic.el.style.left=ic.x+'px';ic.el.style.top=ic.y+'px';
-    if(!iconsLit)ic.el.style.opacity=0.07+0.05*Math.sin(ic.ph+t*0.0006);
+    ic.el.style.left=ic.x+'px';ic.el.style.top=ic.y+'px'; // always float
+    if(!ic.lit)ic.el.style.opacity=0.07+0.05*Math.sin(ic.ph+t*0.0006);
     ic.ph+=0.008;
   });requestAnimationFrame(tick);}
   requestAnimationFrame(tick);
@@ -330,16 +330,20 @@ function activatePortal(){
   ['ripple1','ripple2','ripple3'].forEach((id,i)=>setTimeout(()=>{
     const r=document.getElementById(id);r.classList.remove('active');void r.offsetWidth;r.classList.add('active');
   },i*220));
-  // Light up icons
+  // Light up icons — set ic.lit so tick loop stops overriding opacity
   floatIcons.forEach((ic,idx)=>setTimeout(()=>{
+    ic.lit=true;
     ic.el.style.color=ic.litColor;ic.el.style.opacity='.9';
-    ic.el.style.filter=`drop-shadow(0 0 8px ${ic.litColor})`;ic.el.classList.add('lit');
+    ic.el.style.transform='scale(1.4)'; // inline — no CSS transition conflict
+    ic.el.style.filter=`drop-shadow(0 0 8px ${ic.litColor})`;
   },idx*28));
   document.getElementById('coreSphere').classList.add('brightened');
   // Auto-reset after 7 seconds
   setTimeout(()=>{
     floatIcons.forEach((ic,idx)=>setTimeout(()=>{
-      ic.el.style.color='';ic.el.style.filter='';ic.el.classList.remove('lit');
+      ic.lit=false;
+      ic.el.style.color='';ic.el.style.filter='';
+      ic.el.style.transform='';ic.el.style.opacity='';
     },idx*20));
     document.getElementById('coreSphere').classList.remove('brightened');
     setTimeout(()=>{
