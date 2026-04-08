@@ -357,11 +357,34 @@ const movers=['m1','m2','m3','m4'].map(id=>document.getElementById(id));
 const coreEl=document.getElementById('coreSphere');
 
 // Orbit paths for MOVERS (pure translation from center)
+// Orbit paths — constrained to stay on screen and above title text
+// Horizontal: calc(Xvw - ring_half_width) keeps ring edge within viewport
+// Vertical: capped at ±22vh so rings don't cross the Productions title below
 const PATHS=[
-  [{tx:'0px',ty:'0px'},{tx:'calc(40vw - 110px)',ty:'calc(-25vh + 36px)'},{tx:'calc(40vw - 110px)',ty:'calc(25vh - 36px)'},{tx:'calc(-40vw + 110px)',ty:'calc(25vh - 36px)'},{tx:'calc(-40vw + 110px)',ty:'calc(-25vh + 36px)'}],
-  [{tx:'0px',ty:'0px'},{tx:'calc(-38vw + 100px)',ty:'calc(-22vh + 32px)'},{tx:'calc(-38vw + 100px)',ty:'calc(22vh - 32px)'},{tx:'calc(38vw - 100px)',ty:'calc(22vh - 32px)'},{tx:'calc(38vw - 100px)',ty:'calc(-22vh + 32px)'}],
-  [{tx:'0px',ty:'0px'},{tx:'0px',ty:'calc(-35vh + 28px)'},{tx:'calc(35vw - 85px)',ty:'0px'},{tx:'0px',ty:'calc(35vh - 28px)'},{tx:'calc(-35vw + 85px)',ty:'0px'}],
-  [{tx:'0px',ty:'0px'},{tx:'0px',ty:'calc(32vh - 23px)'},{tx:'calc(-32vw + 70px)',ty:'0px'},{tx:'0px',ty:'calc(-32vh + 23px)'},{tx:'calc(32vw - 70px)',ty:'0px'}],
+  // Ring 1 — outer gold — clockwise perimeter
+  [{tx:'0px',ty:'0px'},
+   {tx:'calc(40vw - 110px)',ty:'calc(-22vh + 36px)'},
+   {tx:'calc(40vw - 110px)',ty:'calc(22vh - 36px)'},
+   {tx:'calc(-40vw + 110px)',ty:'calc(22vh - 36px)'},
+   {tx:'calc(-40vw + 110px)',ty:'calc(-22vh + 36px)'}],
+  // Ring 2 — silver — counter-clockwise perimeter
+  [{tx:'0px',ty:'0px'},
+   {tx:'calc(-38vw + 95px)',ty:'calc(-20vh + 32px)'},
+   {tx:'calc(-38vw + 95px)',ty:'calc(20vh - 32px)'},
+   {tx:'calc(38vw - 95px)',ty:'calc(20vh - 32px)'},
+   {tx:'calc(38vw - 95px)',ty:'calc(-20vh + 32px)'}],
+  // Ring 3 — inner gold — clockwise cross, tighter vertical
+  [{tx:'0px',ty:'0px'},
+   {tx:'0px',ty:'calc(-20vh + 28px)'},
+   {tx:'calc(35vw - 70px)',ty:'0px'},
+   {tx:'0px',ty:'calc(18vh - 28px)'},
+   {tx:'calc(-35vw + 70px)',ty:'0px'}],
+  // Ring 4 — innermost silver — counter-clockwise cross, tightest
+  [{tx:'0px',ty:'0px'},
+   {tx:'0px',ty:'calc(16vh - 23px)'},
+   {tx:'calc(-32vw + 60px)',ty:'0px'},
+   {tx:'0px',ty:'calc(-18vh + 23px)'},
+   {tx:'calc(32vw - 60px)',ty:'0px'}],
 ];
 const ks=document.createElement('style');document.head.appendChild(ks);
 
