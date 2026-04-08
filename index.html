@@ -387,10 +387,10 @@ function cycle(){
     coreEl.classList.remove('brightened');cyc=false;setTimeout(cycle,5000);
   },rb+3*600+2000+200);
 }
-setTimeout(cycle,1200);
+if(window.innerWidth > 600) setTimeout(cycle,1200);
 
 /* ── Email ── */
-const SU='';
+const SU='https://script.google.com/macros/s/AKfycbzy1St_hJ0tOeEp2D5hCYFwPlg7jpx0pdB0o7SSUTuzQTPvzMuuukcT_iJWOeyctBI/exec';
 async function submitEmail(){
   const inp=document.getElementById('emailInput'),btn=inp.nextElementSibling,email=inp.value.trim();
   if(!email||!email.includes('@')||!email.includes('.')){showErr('Please enter a valid email.');return;}
