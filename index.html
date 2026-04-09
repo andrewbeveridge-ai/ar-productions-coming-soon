@@ -440,7 +440,7 @@ function cycle(){
 setTimeout(cycle,3000); // orbit enabled on all screens — paths are constrained
 
 /* ── Email ── */
-const SU='https://script.google.com/macros/s/AKfycbzRSStos04_2REHzjvqZanS377F1DZcsu3HhDQA0jqlFDAMcKe_TIC8LMaaIVj9R0XSgw/exec';
+const SU='https://script.google.com/macros/s/AKfycbxr-7JSECtFFEY84AIi31Vib3TxdUT71N8-fBeJmYCdAXozSxri-r_LFJvJ4p_dvA3eZw/exec';
 async function submitEmail(){
   const inp=document.getElementById('emailInput'),btn=inp.nextElementSibling,email=inp.value.trim();
   if(!email||!email.includes('@')||!email.includes('.')){showErr('Please enter a valid email.');return;}
