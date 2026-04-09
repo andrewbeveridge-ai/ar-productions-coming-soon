@@ -148,6 +148,14 @@
       animation:fadeUp 1s 1s ease both, shimmer 6s 2.5s linear infinite;
     }
 
+    .p-mob { display:none; }
+    .p-desk { display:inline; }
+    @media(max-width:500px){
+      .p-mob { display:block; text-align:center; line-height:1.8; }
+      .p-desk { display:none; }
+      .input-row button { padding:.85rem 1rem; }
+    }
+
     /* Activate */
     .activate-wrap { margin-bottom:1.4rem; position:relative; animation:fadeUp 1s 1.1s ease both; }
     .activate-btn {
@@ -272,7 +280,10 @@
   <p class="brand-dba">Productions</p>
   <p class="tagline-italic">Where AI Meets Artistry</p>
   <div class="gold-rule"></div>
-  <p class="pillars">Your Vision &nbsp;◆&nbsp; Our Pipeline &nbsp;◆&nbsp; World-Class</p>
+  <p class="pillars">
+  <span class="p-desk">Your Vision &nbsp;◆&nbsp; Our Pipeline &nbsp;◆&nbsp; World-Class</span>
+  <span class="p-mob">Your Vision<br>◆&nbsp; Our Pipeline<br>◆&nbsp; World-Class</span>
+</p>
 
   <div class="activate-wrap">
     <button class="activate-btn" id="activateBtn" onclick="activatePortal()">Activate</button>
@@ -434,7 +445,7 @@ async function submitEmail(){
   const inp=document.getElementById('emailInput'),btn=inp.nextElementSibling,email=inp.value.trim();
   if(!email||!email.includes('@')||!email.includes('.')){showErr('Please enter a valid email.');return;}
   const orig=btn.textContent;btn.textContent='...';btn.disabled=true;let ok=false;
-  if(SU){try{const r=await fetch(SU,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,venture:'Another Realm Productions',source:location.hostname})});if((await r.json()).status==='success')ok=true;}catch(_){}}
+  if(SU){try{const url=SU+'?email='+encodeURIComponent(email)+'&venture='+encodeURIComponent('Another Realm Productions')+'&source='+encodeURIComponent(location.hostname);const r=await fetch(url);if((await r.json()).status==='success')ok=true;}catch(_){}}
   if(!ok){try{const fd=new FormData();fd.append('form-name','ar-productions-waitlist');fd.append('venture','Another Realm Productions');fd.append('email',email);const r=await fetch('/',{method:'POST',body:fd});if(r.ok)ok=true;}catch(_){ok=true;}}
   if(ok){document.getElementById('inputRow').style.display='none';document.getElementById('successMsg').style.display='block';}
   else{btn.textContent=orig;btn.disabled=false;showErr('Something went wrong. Try again.');}
