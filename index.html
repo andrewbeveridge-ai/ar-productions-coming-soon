@@ -445,7 +445,7 @@ async function submitEmail(){
   const inp=document.getElementById('emailInput'),btn=inp.nextElementSibling,email=inp.value.trim();
   if(!email||!email.includes('@')||!email.includes('.')){showErr('Please enter a valid email.');return;}
   const orig=btn.textContent;btn.textContent='...';btn.disabled=true;let ok=false;
-  if(SU){try{const url=SU+'?email='+encodeURIComponent(email)+'&venture='+encodeURIComponent('Another Realm Productions')+'&source='+encodeURIComponent(location.hostname);const r=await fetch(url);if((await r.json()).status==='success')ok=true;}catch(_){}}
+  if(SU){try{const url=SU+'?email='+encodeURIComponent(email)+'&venture='+encodeURIComponent('Another Realm Productions')+'&source='+encodeURIComponent(location.hostname);await fetch(url,{mode:'no-cors'});ok=true;}catch(_){}}
   if(!ok){try{const fd=new FormData();fd.append('form-name','ar-productions-waitlist');fd.append('venture','Another Realm Productions');fd.append('email',email);const r=await fetch('/',{method:'POST',body:fd});if(r.ok)ok=true;}catch(_){ok=true;}}
   if(ok){document.getElementById('inputRow').style.display='none';document.getElementById('successMsg').style.display='block';}
   else{btn.textContent=orig;btn.disabled=false;showErr('Something went wrong. Try again.');}
