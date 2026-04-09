@@ -282,7 +282,7 @@
   <div class="gold-rule"></div>
   <p class="pillars">
   <span class="p-desk">Your Vision &nbsp;◆&nbsp; Our Pipeline &nbsp;◆&nbsp; World-Class</span>
-  <span class="p-mob">Your Vision<br>◆&nbsp; Our Pipeline<br>◆&nbsp; World-Class</span>
+  <span class="p-mob">◆&nbsp; Your Vision<br>◆&nbsp; Our Pipeline<br>◆&nbsp; World-Class</span>
 </p>
 
   <div class="activate-wrap">
@@ -437,7 +437,7 @@ function cycle(){
     coreEl.classList.remove('brightened');cyc=false;setTimeout(cycle,5000);
   },rb+3*600+2000+200);
 }
-if(window.innerWidth > 600) setTimeout(cycle,3000);
+setTimeout(cycle,3000); // orbit enabled on all screens — paths are constrained
 
 /* ── Email ── */
 const SU='https://script.google.com/macros/s/AKfycbzRSStos04_2REHzjvqZanS377F1DZcsu3HhDQA0jqlFDAMcKe_TIC8LMaaIVj9R0XSgw/exec';
