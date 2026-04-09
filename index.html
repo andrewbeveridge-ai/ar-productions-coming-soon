@@ -424,7 +424,7 @@ let cyc=false;
 function cycle(){
   if(cyc)return;cyc=true;
   // Phase 3: orbit — animate movers
-  setTimeout(()=>movers.forEach((m,i)=>{m.style.transition='none';m.style.animation=`orbit${i+1} 8s linear forwards`;}),5000);
+  setTimeout(()=>movers.forEach((m,i)=>{m.style.transition='none';m.style.animation=`orbit${i+1} 8s linear forwards`;}),3000);
   // Phase 4: staggered return smallest first
   const rb=13000;
   [3,2,1,0].forEach((mi,step)=>setTimeout(()=>{
