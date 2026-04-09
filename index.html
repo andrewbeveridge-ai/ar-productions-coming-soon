@@ -417,7 +417,7 @@ function cycle(){
 if(window.innerWidth > 600) setTimeout(cycle,1200);
 
 /* ── Email ── */
-const SU='https://script.google.com/macros/s/AKfycbzy1St_hJ0tOeEp2D5hCYFwPlg7jpx0pdB0o7SSUTuzQTPvzMuuukcT_iJWOeyctBI/exec';
+const SU='https://script.google.com/macros/s/AKfycbzGTrqyVhM4JcfSqnwEETPmZLImeoGOCOeP7tVpoivEDNUqdirVCJONGAWlBQLNPk7_AA/exec';
 async function submitEmail(){
   const inp=document.getElementById('emailInput'),btn=inp.nextElementSibling,email=inp.value.trim();
   if(!email||!email.includes('@')||!email.includes('.')){showErr('Please enter a valid email.');return;}
