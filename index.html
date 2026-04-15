@@ -370,9 +370,9 @@ function activatePortal(){
     },idx*20));
     document.getElementById('coreSphere').classList.remove('brightened');
     setTimeout(()=>{
-      btn.textContent='Activate';btn.classList.remove('active-state');btn.disabled=false;activating=false;
+      btn.textContent='Activate';btn.classList.remove('active-state');btn.disabled=false;activating=false;window.location.href='mailto:info@anotherrealmproductions.com';
     },700);
-  },7000);
+  },4000);
 }
 
 /* ── Orbital — mover-based so 3D tilt stays on ring, translation on mover ── */
@@ -426,7 +426,7 @@ function cycle(){
   // Phase 3: orbit — animate movers
   setTimeout(()=>movers.forEach((m,i)=>{m.style.transition='none';m.style.animation=`orbit${i+1} 8s linear forwards`;}),3000);
   // Phase 4: staggered return smallest first
-  const rb=13000;
+  const rb=11000;
   [3,2,1,0].forEach((mi,step)=>setTimeout(()=>{
     movers[mi].style.animation=`ret${mi+1} 1800ms cubic-bezier(0.25,0.1,0.25,1) forwards`;
     if(mi===2)coreEl.classList.add('brightened');
@@ -435,9 +435,9 @@ function cycle(){
   setTimeout(()=>{
     movers.forEach(m=>{m.style.animation='none';m.style.transition='opacity .5s';m.style.opacity='1';m.style.transform='translate(0px,0px)';});
     coreEl.classList.remove('brightened');cyc=false;setTimeout(cycle,5000);
-  },rb+3*600+2000+200);
+  },rb+3*600+400+200);
 }
-setTimeout(cycle,3000); // orbit enabled on all screens — paths are constrained
+setTimeout(cycle,2000); // orbit enabled on all screens — paths are constrained
 
 /* ── Email ── */
 const SU='https://script.google.com/macros/s/AKfycbxr-7JSECtFFEY84AIi31Vib3TxdUT71N8-fBeJmYCdAXozSxri-r_LFJvJ4p_dvA3eZw/exec';
