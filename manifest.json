@@ -3,7 +3,7 @@
   "short_name": "AR Productions",
   "description": "Another Realm Productions \u2014 Coming Soon",
   "start_url": "/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#0A0A0A",
   "theme_color": "#D4AF37",
   "icons": [
