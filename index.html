@@ -160,27 +160,6 @@
       .input-row button { padding:.85rem 1rem; }
     }
 
-    /* Activate */
-    .activate-wrap { margin-bottom:1.4rem; position:relative; animation:fadeUp 1s 1.1s ease both; }
-    .activate-btn {
-      min-height:44px; padding:.65rem 2.2rem; background:transparent;
-      border:1px solid rgba(212,175,55,.5); color:var(--gold);
-      font-family:'Rajdhani',sans-serif; font-size:.75rem; font-weight:600;
-      letter-spacing:.28em; text-transform:uppercase; cursor:pointer; border-radius:2px;
-      transition:border-color .2s,box-shadow .2s,background .2s; -webkit-tap-highlight-color:transparent;
-    }
-    .activate-btn:hover { border-color:var(--gold); box-shadow:0 0 16px rgba(212,175,55,.4); }
-    .activate-btn.active-state {
-      border-color:var(--gold); background:rgba(212,175,55,.08);
-      box-shadow:0 0 22px rgba(212,175,55,.65),0 0 60px rgba(212,175,55,.15);
-    }
-    .ripple {
-      position:absolute; top:50%; left:50%; width:12px; height:12px; margin:-6px 0 0 -6px;
-      border-radius:50%; border:1.5px solid var(--gold); pointer-events:none; opacity:0;
-    }
-    .ripple.active { animation:rippleOut 1s ease-out forwards; }
-    @keyframes rippleOut { 0%{transform:scale(1);opacity:.8;} 100%{transform:scale(30);opacity:0;} }
-
     /* Form */
     .form-wrap { width:100%; max-width:400px; animation:fadeUp 1s 1.2s ease both; }
     .form-label {
@@ -223,6 +202,49 @@
       font-size:clamp(.82rem,2vw,1rem); color:var(--silver); opacity:.8;
       letter-spacing:.08em; animation:fadeUp 1s 1.3s ease both;
     }
+
+    /* ── Industry Insights ── */
+    .insights {
+      width:100%; max-width:560px; margin-top:3rem;
+      animation:fadeUp 1s 1.4s ease both;
+    }
+    .insights-heading {
+      text-align:center;
+      font-size:clamp(.8rem,2vw,.95rem); font-weight:600; letter-spacing:.34em;
+      text-transform:uppercase; color:var(--silver); opacity:.9;
+      margin-bottom:1.3rem;
+    }
+    .insight-card {
+      display:block; text-decoration:none; color:inherit;
+      border:1px solid rgba(212,175,55,.28); border-radius:4px;
+      background:rgba(255,255,255,.018);
+      padding:1.4rem 1.5rem;
+      transition:border-color .25s ease, background .25s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .insight-card:hover, .insight-card:focus-visible {
+      border-color:rgba(212,175,55,.7); background:rgba(212,175,55,.04); outline:none;
+    }
+    .insight-cat {
+      font-size:.68rem; font-weight:600; letter-spacing:.28em;
+      text-transform:uppercase; color:var(--gold);
+      margin-bottom:.6rem;
+    }
+    .insight-title {
+      font-size:clamp(1.1rem,3vw,1.35rem); font-weight:600; line-height:1.3;
+      color:var(--white); margin-bottom:.6rem;
+      transition:color .25s ease;
+    }
+    .insight-card:hover .insight-title { color:#f5dc6e; }
+    .insight-preview {
+      font-size:clamp(.88rem,2.2vw,.98rem); font-weight:400; line-height:1.6;
+      color:var(--silver); margin-bottom:.9rem;
+    }
+    .insight-cta {
+      font-size:.78rem; font-weight:600; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--gold);
+    }
+    .insight-cta::after { content:" \2192"; }
     .site-footer {
       position:fixed; bottom:0; left:0; right:0;
       padding:.6rem 1rem max(.9rem,env(safe-area-inset-bottom));
@@ -310,13 +332,6 @@
   <span class="p-mob">◆&nbsp; Your Vision<br>◆&nbsp; Our Pipeline<br>◆&nbsp; World-Class</span>
 </p>
 
-  <div class="activate-wrap">
-    <button class="activate-btn" id="activateBtn" onclick="activatePortal()">Activate</button>
-    <div class="ripple" id="ripple1"></div>
-    <div class="ripple" id="ripple2"></div>
-    <div class="ripple" id="ripple3"></div>
-  </div>
-
   <div class="form-wrap">
     <label class="form-label">Get Early Access</label>
     <div class="input-row" id="inputRow">
@@ -328,6 +343,16 @@
     <p class="privacy-note">No spam &nbsp;·&nbsp; Unsubscribe anytime</p>
   </div>
   <p class="contact-email"><a href="mailto:info@anotherrealmproductions.com" style="color:inherit;text-decoration:none;">info@anotherrealmproductions.com</a></p>
+
+  <section class="insights" aria-label="Industry Insights">
+    <h2 class="insights-heading">Industry Insights</h2>
+    <a class="insight-card" href="/insights/ai-music-labels-control">
+      <p class="insight-cat">Industry Insight</p>
+      <p class="insight-title">Are Major Labels Losing Control of the AI Music Boom?</p>
+      <p class="insight-preview">AI music is moving from lawsuits to licensing deals &mdash; and the major labels are racing to control what comes next.</p>
+      <span class="insight-cta">Read the full story</span>
+    </a>
+  </section>
 </main>
 <footer class="site-footer">&copy; 2026 Another Realm Productions &nbsp;|&nbsp; anotherrealmproductions.com</footer>
 
@@ -368,39 +393,6 @@ const floatIcons=[];(function(){
   });requestAnimationFrame(tick);}
   requestAnimationFrame(tick);
 })();
-
-let activating=false;
-function activatePortal(){
-  if(activating)return; activating=true;
-  const btn=document.getElementById('activateBtn');
-  btn.disabled=true; btn.classList.add('active-state'); btn.textContent='Activated ✦';
-  // Ripple bursts
-  ['ripple1','ripple2','ripple3'].forEach((id,i)=>setTimeout(()=>{
-    const r=document.getElementById(id);r.classList.remove('active');void r.offsetWidth;r.classList.add('active');
-  },i*220));
-  // Light up icons — set ic.lit so tick loop stops overriding opacity
-  const BRAND_CYCLE=['#D4AF37','#B8B8B8','#FAFAFA'];
-  floatIcons.forEach((ic,idx)=>setTimeout(()=>{
-    ic.lit=true;
-    const bc=BRAND_CYCLE[idx%3];
-    ic.el.style.color=bc;ic.el.style.opacity='.9';
-    ic.el.style.transform='scale(1.4)';
-    ic.el.style.filter=`drop-shadow(0 0 8px ${bc})`;
-  },idx*28));
-  document.getElementById('coreSphere').classList.add('brightened');
-  // Auto-reset after 7 seconds
-  setTimeout(()=>{
-    floatIcons.forEach((ic,idx)=>setTimeout(()=>{
-      ic.lit=false;
-      ic.el.style.color='';ic.el.style.filter='';
-      ic.el.style.transform='';ic.el.style.opacity='';
-    },idx*20));
-    document.getElementById('coreSphere').classList.remove('brightened');
-    setTimeout(()=>{
-      btn.textContent='Activate';btn.classList.remove('active-state');btn.disabled=false;activating=false;
-    },700);
-  },4000);
-}
 
 /* ── Orbital — mover-based so 3D tilt stays on ring, translation on mover ── */
 const movers=['m1','m2','m3','m4'].map(id=>document.getElementById(id));

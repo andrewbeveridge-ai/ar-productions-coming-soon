@@ -1,0 +1,91 @@
+/* ───────────────────────────────────────────────────────────────
+   Another Realm Productions — Industry Insights article styles
+   Shared stylesheet. New articles at /insights/<slug>.html reuse this
+   verbatim — only the <head> meta and <article> body change.
+   ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --gold:#D4AF37; --silver:#B8B8B8; --black:#0A0A0A; --white:#FAFAFA; --muted:#B8B8B8; }
+
+html { -webkit-text-size-adjust:100%; }
+body {
+  background:var(--black); color:var(--white);
+  font-family:'Rajdhani',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  line-height:1.7; overflow-x:hidden;
+}
+
+.wrap {
+  max-width:680px;
+  margin:0 auto;
+  padding:2.5rem 1.5rem 4rem;
+  padding-top:max(2.5rem,env(safe-area-inset-top));
+}
+
+/* ── Back link ── */
+.back-link {
+  display:inline-block;
+  font-size:.95rem; font-weight:500; letter-spacing:.04em;
+  color:var(--silver); text-decoration:none;
+  margin-bottom:3rem;
+  transition:color .2s ease;
+}
+.back-link:hover { color:var(--gold); }
+
+/* ── Category label ── */
+.kicker {
+  font-size:.8rem; font-weight:600; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--gold);
+  margin-bottom:1.2rem;
+}
+
+/* ── Title ── */
+.article-title {
+  font-size:clamp(2rem,5.5vw,3rem); font-weight:700; line-height:1.15;
+  letter-spacing:.005em; color:var(--white);
+  margin-bottom:1.1rem;
+}
+
+/* ── Byline ── */
+.byline {
+  font-size:.95rem; font-weight:400; letter-spacing:.04em;
+  color:var(--silver);
+  margin-bottom:1.8rem;
+}
+
+/* ── Thin gold dividers ── */
+.divider {
+  height:1px; border:0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.55;
+  margin:1.8rem 0;
+}
+.divider.solid {
+  background:var(--gold); opacity:.4;
+}
+
+/* ── Body copy ── */
+.article-body { margin-top:2.2rem; }
+.article-body p {
+  font-size:1.18rem; font-weight:400; line-height:1.75;
+  color:var(--white);
+  margin-bottom:1.6rem;
+}
+.article-body p:last-child { margin-bottom:0; }
+
+/* Emphasised closing stanza lines */
+.article-body p.stanza { margin-bottom:.35rem; }
+.article-body p.stanza + p.stanza { margin-top:0; }
+
+/* ── Footer ── */
+.article-footer {
+  margin-top:1.6rem;
+  font-size:.95rem; letter-spacing:.08em;
+  color:#9a7e2e;            /* muted gold */
+}
+.article-footer a { color:inherit; text-decoration:none; }
+.article-footer a:hover { color:var(--gold); }
+
+@media(max-width:420px){
+  .wrap { padding-left:1.25rem; padding-right:1.25rem; }
+  .back-link { margin-bottom:2.2rem; }
+}
