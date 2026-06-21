@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0A0A">
+  <title>Services — Another Realm Productions</title>
+  <meta name="description" content="Where AI Meets Human Artistry — services coming soon from Another Realm Productions.">
+  <meta property="og:title" content="Services — Another Realm Productions">
+  <meta property="og:description" content="Where AI Meets Human Artistry — services coming soon from Another Realm Productions.">
+  <meta property="og:url" content="https://anotherrealmproductions.com/services">
+  <link rel="canonical" href="https://anotherrealmproductions.com/services">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --gold:#D4AF37; --silver:#B8B8B8; --black:#0A0A0A; --white:#FAFAFA; }
+    html { height:100%; -webkit-text-size-adjust:100%; }
+    body {
+      width:100%; min-height:100%; background:var(--black); color:var(--white); overflow-x:hidden;
+      font-family:'Rajdhani',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    #starCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; display:block; }
+
+    .scene {
+      position:relative; z-index:2;
+      display:flex; flex-direction:column; align-items:center;
+      min-height:100dvh; min-height:100vh;
+      padding:2.5rem 1.5rem 4rem;
+      padding-top:max(2.5rem,env(safe-area-inset-top));
+    }
+
+    .back-link {
+      align-self:flex-start; max-width:1000px; width:100%; margin:0 auto .5rem;
+      font-family:'Rajdhani',sans-serif; font-size:clamp(.72rem,1.8vw,.82rem);
+      font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+      color:var(--silver); text-decoration:none; opacity:.8;
+      transition:color .2s, opacity .2s; -webkit-tap-highlight-color:transparent;
+    }
+    .back-link:hover { color:var(--gold); opacity:1; }
+
+    .cs-label {
+      margin-top:1.6rem;
+      font-size:clamp(13px,2.2vw,17px); font-weight:600; letter-spacing:.5em;
+      text-transform:uppercase; color:var(--silver);
+      animation:fadeUp 1s .1s ease both;
+    }
+    .brand-another {
+      margin-top:1rem;
+      font-size:clamp(2rem,5vw,3.4rem); font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+      background:linear-gradient(135deg,var(--gold) 0%,#f5dc6e 35%,var(--gold) 55%,#9a7018 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      line-height:1; text-align:center; animation:fadeUp 1s .2s ease both;
+    }
+    .brand-dba {
+      margin-top:.3rem;
+      font-size:clamp(1rem,2.6vw,1.5rem); font-weight:600; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--silver); line-height:1; text-align:center; animation:fadeUp 1s .25s ease both;
+    }
+    .tagline-italic {
+      margin-top:.8rem;
+      font-family:'Cormorant Garamond',Georgia,serif; font-style:italic;
+      font-size:clamp(1rem,2.5vw,1.35rem); color:var(--silver); opacity:.9;
+      letter-spacing:.06em; text-align:center; animation:fadeUp 1s .3s ease both;
+    }
+    .gold-rule {
+      width:180px; height:1px; margin:1.2rem 0 0;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+      animation:fadeUp 1s .35s ease both;
+    }
+    .page-intro {
+      max-width:560px; margin:1.4rem auto 0; text-align:center;
+      font-size:clamp(.95rem,2.2vw,1.08rem); line-height:1.6; color:var(--silver);
+      animation:fadeUp 1s .4s ease both;
+    }
+
+    /* ── Services grid ── */
+    .services-grid {
+      width:100%; max-width:1000px; margin:2.6rem auto 0;
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.1rem;
+      animation:fadeUp 1s .5s ease both;
+    }
+    .service-card {
+      position:relative; display:flex; flex-direction:column;
+      border:1px solid rgba(212,175,55,.28); border-radius:6px;
+      background:rgba(255,255,255,.018);
+      padding:1.6rem 1.5rem 1.7rem;
+      transition:border-color .25s ease, background .25s ease, transform .25s ease;
+    }
+    .service-card:hover { border-color:rgba(212,175,55,.6); background:rgba(212,175,55,.035); transform:translateY(-2px); }
+    .service-badge {
+      align-self:flex-start; margin-bottom:1rem;
+      font-size:.6rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--gold); border:1px solid rgba(212,175,55,.5); border-radius:999px;
+      padding:.3rem .7rem;
+    }
+    .service-name {
+      font-size:clamp(1.15rem,2.6vw,1.4rem); font-weight:600; line-height:1.25;
+      color:var(--white); margin-bottom:.6rem;
+    }
+    .service-desc {
+      font-size:clamp(.9rem,2.1vw,.98rem); font-weight:400; line-height:1.55;
+      color:var(--silver);
+    }
+
+    /* ── Email capture (shared with home) ── */
+    .form-wrap { width:100%; max-width:400px; margin:3rem auto 0; animation:fadeUp 1s .6s ease both; }
+    .form-label {
+      display:block; text-align:center;
+      font-size:clamp(.75rem,1.8vw,.9rem); letter-spacing:.22em; text-transform:uppercase;
+      color:var(--silver); opacity:.88; margin-bottom:.4rem;
+    }
+    .form-sub {
+      display:block; text-align:center; margin-bottom:1rem;
+      font-family:'Cormorant Garamond',Georgia,serif; font-style:italic;
+      font-size:clamp(.95rem,2.2vw,1.1rem); color:var(--silver); opacity:.85;
+    }
+    .lead-form { display:flex; flex-direction:column; gap:.7rem; }
+    .lead-field {
+      width:100%; min-height:48px; padding:.85rem 1.1rem;
+      background:rgba(255,255,255,.025); color:var(--white);
+      border:1px solid rgba(212,175,55,.4); border-radius:3px; outline:none;
+      font-family:'Rajdhani',sans-serif; font-size:1rem;
+      transition:border-color .2s, box-shadow .2s;
+    }
+    .lead-field::placeholder { color:rgba(250,250,250,.3); }
+    .lead-field:focus { border-color:rgba(212,175,55,.85); box-shadow:0 0 0 3px rgba(212,175,55,.12); }
+    textarea.lead-field { min-height:90px; resize:vertical; line-height:1.5; }
+    .lead-submit {
+      width:100%; min-height:48px; padding:.85rem 1.3rem; margin-top:.1rem;
+      background:transparent; border:1px solid rgba(212,175,55,.55); border-radius:3px;
+      color:var(--gold); cursor:pointer;
+      font-family:'Rajdhani',sans-serif; font-size:.82rem; font-weight:700;
+      letter-spacing:.16em; text-transform:uppercase;
+      transition:background .2s,color .2s,box-shadow .2s; -webkit-tap-highlight-color:transparent;
+    }
+    .lead-submit:hover { background:var(--gold); color:var(--black); box-shadow:0 0 18px 4px rgba(212,175,55,.5); }
+    .lead-submit:disabled { opacity:.6; cursor:default; }
+    .hp-field { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; opacity:0; }
+    .success-msg {
+      display:none; text-align:center; padding:.9rem;
+      font-family:'Cormorant Garamond',Georgia,serif; font-style:italic;
+      color:var(--gold); font-size:1.05rem; letter-spacing:.08em;
+    }
+    .error-msg { display:none; text-align:center; padding:.45rem; color:#ff7070; font-size:.82rem; }
+    .privacy-note {
+      margin-top:.7rem; text-align:center;
+      font-size:clamp(.75rem,1.8vw,.85rem); color:rgba(250,250,250,.62);
+      letter-spacing:.06em; font-family:'DM Mono','Courier New',monospace;
+    }
+    .contact-email {
+      margin-top:1.4rem; text-align:center; font-family:'DM Mono','Courier New',monospace;
+      font-size:clamp(.82rem,2vw,1rem); color:var(--silver); opacity:.8; letter-spacing:.08em;
+    }
+    .contact-email a { color:inherit; text-decoration:none; }
+
+    .site-footer {
+      margin-top:3rem; text-align:center;
+      font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;
+      color:rgba(250,250,250,.18); font-family:'Rajdhani',sans-serif;
+    }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+</head>
+<body>
+
+<canvas id="starCanvas"></canvas>
+
+<main class="scene">
+  <a class="back-link" href="/">&larr; Back to Another Realm Productions</a>
+
+  <p class="cs-label">Services</p>
+  <p class="brand-another">Another Realm</p>
+  <p class="brand-dba">Productions</p>
+  <p class="tagline-italic">Where AI Meets Human Artistry</p>
+  <div class="gold-rule"></div>
+  <p class="page-intro">Every service below is in development. Join the early-access list and we'll reach out the moment it goes live.</p>
+
+  <section class="services-grid" aria-label="Services — coming soon">
+    <article class="service-card">
+      <span class="service-badge">Coming Soon</span>
+      <h2 class="service-name">Custom Songs</h2>
+      <p class="service-desc">A song made for your moment &mdash; written, produced, and finished for you.</p>
+    </article>
+    <article class="service-card">
+      <span class="service-badge">Coming Soon</span>
+      <h2 class="service-name">Music Production</h2>
+      <p class="service-desc">Full production for artists, from first idea to finished track.</p>
+    </article>
+    <article class="service-card">
+      <span class="service-badge">Coming Soon</span>
+      <h2 class="service-name">Video Production</h2>
+      <p class="service-desc">Visual stories and brand video, crafted end to end.</p>
+    </article>
+    <article class="service-card">
+      <span class="service-badge">Coming Soon</span>
+      <h2 class="service-name">Aerial Cinematography</h2>
+      <p class="service-desc">Drone &amp; aerial work, currently in development &mdash; portfolio and collaboration pieces in progress.</p>
+    </article>
+    <article class="service-card">
+      <span class="service-badge">Coming Soon</span>
+      <h2 class="service-name">Content Creation</h2>
+      <p class="service-desc">Social &amp; brand content for artists and businesses.</p>
+    </article>
+  </section>
+
+  <div class="form-wrap">
+    <label class="form-label" for="emailInput">Get Early Access</label>
+    <span class="form-sub">Be first to know when these go live.</span>
+    <form class="lead-form" id="leadForm" autocomplete="on" novalidate>
+      <input class="lead-field" type="text" id="nameInput" name="name" placeholder="Name (optional)" autocomplete="name">
+      <input class="lead-field" type="email" id="emailInput" name="email" placeholder="your@email.com" autocomplete="email" inputmode="email" required>
+      <input class="lead-field" type="tel" id="phoneInput" name="phone" placeholder="Phone (optional)" autocomplete="tel">
+      <textarea class="lead-field" id="commentInput" name="comment" placeholder="Anything you'd like us to know?"></textarea>
+      <div class="hp-field" aria-hidden="true">
+        <label>Leave this field empty<input type="text" name="_hp" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <button class="lead-submit" type="submit">Notify Me</button>
+    </form>
+    <div class="success-msg" id="successMsg">&#10022;&nbsp; You're on the list.</div>
+    <div class="error-msg" id="errorMsg"></div>
+    <p class="privacy-note">By submitting, you agree we may contact you.</p>
+  </div>
+
+  <p class="contact-email"><a href="mailto:info@anotherrealmproductions.com">info@anotherrealmproductions.com</a></p>
+
+  <footer class="site-footer">&copy; 2026 Another Realm Productions &nbsp;|&nbsp; anotherrealmproductions.com</footer>
+</main>
+
+<script>
+/* ── Star Field ── */
+(function(){
+  const c=document.getElementById('starCanvas'),ctx=c.getContext('2d');let S=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;}
+  function init(){S=[];for(let i=0;i<200;i++)S.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.4+0.2,b:Math.random()*0.5+0.1,ph:Math.random()*Math.PI*2,sp:0.4+Math.random()*1.3});}
+  function draw(t){ctx.clearRect(0,0,c.width,c.height);S.forEach(s=>{const a=s.b+(1-s.b)*0.5*(1+Math.sin(s.ph+t*s.sp*0.001));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.283);ctx.fillStyle=`rgba(255,255,255,${a})`;ctx.fill();s.ph+=0.008;});requestAnimationFrame(draw);}
+  resize();init();requestAnimationFrame(draw);
+  window.addEventListener('resize',()=>{resize();init();});
+})();
+
+/* ── Lead capture → Supabase capture-lead ── */
+const LEAD_ENDPOINT='https://bgswqjgswlvdazseyhvu.supabase.co/functions/v1/capture-lead';
+async function submitLead(source,form){
+  const email=form.email.value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showErr('Please enter a valid email.');return;}
+  const btn=form.querySelector('.lead-submit'),orig=btn.textContent;
+  btn.textContent='...';btn.disabled=true;
+  // entity/dba fixed per contract; optionals included ONLY when non-empty (never "")
+  const payload={entity:'ARAI',dba:'Another Realm Productions',source:source,email:email,_hp:form._hp.value};
+  const name=form.name.value.trim();    if(name) payload.name=name;
+  const phone=form.phone.value.trim();  if(phone) payload.phone=phone;
+  const notes=form.comment.value.trim();if(notes) payload.notes=notes; // comment → notes
+  let ok=false;
+  try{
+    const r=await fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const j=await r.json().catch(()=>({}));
+    ok=r.ok&&j&&j.ok===true;
+  }catch(_){}
+  if(ok){form.style.display='none';document.getElementById('successMsg').style.display='block';}
+  else{btn.textContent=orig;btn.disabled=false;showErr('Something went wrong. Please try again.');}
+}
+function showErr(m){const e=document.getElementById('errorMsg');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',4000);}
+document.getElementById('leadForm').addEventListener('submit',function(e){e.preventDefault();submitLead('web:services',this);});
+</script>
+</body>
+</html>
