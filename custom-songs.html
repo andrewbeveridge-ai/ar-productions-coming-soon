@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#0A0A0A">
+  <!-- TEMPORARY: page is direct-URL only until Square is live. Remove at launch. -->
+  <meta name="robots" content="noindex">
   <title>Custom Songs Made for Your Moment | Another Realm Productions</title>
   <meta name="description" content="A one-of-a-kind song crafted from your story — for weddings, birthdays, memorials &amp; more. Delivered in as little as a day. Start yours.">
   <meta property="og:title" content="Custom Songs Made for Your Moment | Another Realm Productions">
@@ -692,10 +694,10 @@
 
       <!-- Confirmation state — shown before/at the Square redirect -->
       <div class="confirm-panel" id="confirmPanel" role="status" aria-live="polite" tabindex="-1">
-        <p class="confirm-title">&#10022;&nbsp; Thank you &mdash; your brief is in.</p>
-        <p class="confirm-ref"><small>Order reference</small><span id="confirmRef">ARP-000000</span></p>
-        <p class="confirm-body">Keep this reference &mdash; quote it in any email about your song. We&rsquo;re sending you to secure checkout now.</p>
-        <p class="confirm-body">For tiers with photos or voice, we&rsquo;ll email you to collect them &mdash; your delivery window starts when they arrive.</p>
+        <p class="confirm-title" id="confirmTitle">&#10022;&nbsp; Thank you &mdash; your brief is in.</p>
+        <p class="confirm-ref" id="confirmRefBlock"><small>Order reference</small><span id="confirmRef">ARP-000000</span></p>
+        <p class="confirm-body" id="confirmKeep">Keep this reference &mdash; quote it in any email about your song.</p>
+        <p class="confirm-body" id="confirmAssets">For tiers with photos or voice, we&rsquo;ll email you to collect them &mdash; your delivery window starts when they arrive.</p>
         <p class="confirm-note" id="confirmNote"></p>
       </div>
     </div>
@@ -751,7 +753,8 @@
       or email <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a>
     </p>
     <p class="footer-links">
-      <a href="/">Home</a><span>&middot;</span><a href="/services">Services</a><span>&middot;</span><a href="/services">Music</a><span>&middot;</span><a href="/services">Aerial</a>
+      <!-- Music and Aerial re-added here once those pages ship. -->
+      <a href="/">Home</a><span>&middot;</span><a href="/services">Services</a>
     </p>
     <p class="site-footer">&copy; 2026 Another Realm Productions &nbsp;|&nbsp; anotherrealmproductions.com</p>
   </footer>
@@ -918,30 +921,45 @@ form.addEventListener('submit',async function(e){
     consents:{voice_consent:document.getElementById('voiceConsent').checked, terms:document.getElementById('terms').checked}
   };
 
+  /* The brief POST and the Square redirect are independent gates: each fires only
+     when its own token has been swapped for a real url. */
+  const endpointLive=!isToken(BRIEF_ENDPOINT);
+  const link=rush?SQUARE_LINKS[tierKey].rush:SQUARE_LINKS[tierKey].standard;
+  const checkoutLive=!isToken(link);
+
   let delivered=false;
-  if(!isToken(BRIEF_ENDPOINT)){
+  if(endpointLive){
     try{
       const r=await fetch(BRIEF_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(brief)});
       delivered=r.ok;
     }catch(_){}
-    if(!delivered){btn.textContent=orig;btn.disabled=false;return showErr('We couldn’t save your brief. Please try again, or email it to us and we’ll take it from there.');}
+    /* Fail closed: no brief captured means no hand-off to payment. */
+    if(!delivered){
+      btn.textContent=orig;btn.disabled=false;
+      return showErr('We couldn’t save your brief. Please try again, or email us at {{CONTACT_EMAIL}} and we’ll take it from there.');
+    }
   }
 
-  /* Confirmation state, then the Square hand-off for the selected tier. */
-  const link=rush?SQUARE_LINKS[tierKey].rush:SQUARE_LINKS[tierKey].standard;
   form.style.display='none';
   document.getElementById('confirmRef').textContent=reference;
-  const panel=document.getElementById('confirmPanel');
+  const panel=document.getElementById('confirmPanel'),note=document.getElementById('confirmNote');
   panel.style.display='block';panel.focus();
   panel.scrollIntoView({behavior:'smooth',block:'center'});
 
-  if(isToken(link)){
-    /* Checkout is not live yet — hold the buyer here rather than send them to a dead link. */
-    document.getElementById('confirmNote').textContent='Checkout is not open yet. We have your brief and will email you a payment link at '+email+'.';
+  if(!endpointLive){
+    /* Nothing was captured — say nothing that implies otherwise. */
+    document.getElementById('confirmTitle').innerHTML='&#10022;&nbsp; Thanks for building your brief.';
+    document.getElementById('confirmRefBlock').hidden=true;
+    document.getElementById('confirmKeep').hidden=true;
+    document.getElementById('confirmAssets').hidden=true;
+    note.textContent='Checkout isn’t open yet — check back soon.';
+  }else if(checkoutLive){
+    note.textContent='Redirecting to secure checkout…';
   }else{
-    document.getElementById('confirmNote').textContent='Redirecting to secure checkout…';
-    setTimeout(()=>{window.location.href=link;},2500);
+    note.textContent='Checkout isn’t open yet. We have your brief and will email you a payment link at '+email+'.';
   }
+
+  if(checkoutLive) setTimeout(()=>{window.location.href=link;},2500);
 });
 
 paintCards();paintSummary();
