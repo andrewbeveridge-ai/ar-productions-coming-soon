@@ -34,18 +34,9 @@
       padding-top:max(2.5rem,env(safe-area-inset-top));
     }
 
-    .back-link {
-      align-self:flex-start; max-width:1000px; width:100%; margin:0 auto .5rem;
-      font-family:'Rajdhani',sans-serif; font-size:clamp(.72rem,1.8vw,.82rem);
-      font-weight:600; letter-spacing:.16em; text-transform:uppercase;
-      color:var(--silver); text-decoration:none; opacity:.8;
-      transition:color .2s, opacity .2s; -webkit-tap-highlight-color:transparent;
-    }
-    .back-link:hover { color:var(--gold); opacity:1; }
-
     /* ── Shared brand lockup (matches /services) ── */
     .cs-label {
-      margin-top:1.6rem;
+      margin-top:.6rem;
       font-size:clamp(13px,2.2vw,17px); font-weight:600; letter-spacing:.5em;
       text-transform:uppercase; color:var(--silver);
       animation:fadeUp 1s .1s ease both;
@@ -331,12 +322,8 @@
     .footer-contact { font-family:'DM Mono','Courier New',monospace; font-size:clamp(.8rem,1.9vw,.9rem); color:var(--silver); opacity:.82; line-height:1.8; letter-spacing:.04em; }
     .footer-contact a { color:inherit; text-decoration:none; border-bottom:1px solid rgba(212,175,55,.3); }
     .footer-contact a:hover { color:var(--gold); }
-    .footer-links { margin-top:1.1rem; font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(250,250,250,.45); }
-    .footer-links a { color:inherit; text-decoration:none; transition:color .2s; }
-    .footer-links a:hover { color:var(--gold); }
-    .footer-links span { opacity:.35; margin:0 .5rem; }
     .site-footer {
-      margin-top:1.6rem; text-align:center;
+      margin-top:1.4rem; text-align:center;
       font-size:.6rem; letter-spacing:.16em; text-transform:uppercase;
       color:rgba(250,250,250,.18); font-family:'Rajdhani',sans-serif;
     }
@@ -360,8 +347,6 @@
 <canvas id="starCanvas"></canvas>
 
 <main class="scene">
-  <a class="back-link" href="/">&larr; Back to Another Realm Productions</a>
-
   <!-- ═══ 1. HERO ═══ -->
   <p class="cs-label">Custom Songs</p>
   <p class="brand-another">Another Realm</p>
@@ -752,10 +737,8 @@
       Questions first? Text us at <a href="tel:+13237010795">323-701-0795</a><br>
       or email <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a>
     </p>
-    <p class="footer-links">
-      <!-- Music and Aerial re-added here once those pages ship. -->
-      <a href="/">Home</a><span>&middot;</span><a href="/services">Services</a>
-    </p>
+    <!-- Cross-links (Home / Services / Music / Aerial) intentionally omitted:
+         this page stays isolated until Square checkout is live. -->
     <p class="site-footer">&copy; 2026 Another Realm Productions &nbsp;|&nbsp; anotherrealmproductions.com</p>
   </footer>
 </main>
@@ -780,8 +763,8 @@ document.querySelectorAll('.demo-wave').forEach(w=>{let h='';for(let i=0;i<28;i+
    the separate lead pipeline used by index.html and services.html.
    ═══════════════════════════════════════════════════════════════ */
 
-/* PLACEHOLDER — Make webhook URL, swap before launch. */
-const BRIEF_ENDPOINT='{{BRIEF_ENDPOINT}}';
+/* Make webhook — receives the order brief as JSON. */
+const BRIEF_ENDPOINT='https://hook.us2.make.com/ix9fsncfw64hvzvkuamkvy3ug37p3795';
 
 /* PLACEHOLDER CHECKOUT LINKS — swap when Square is live. */
 const SQUARE_LINKS={
@@ -953,13 +936,14 @@ form.addEventListener('submit',async function(e){
     document.getElementById('confirmKeep').hidden=true;
     document.getElementById('confirmAssets').hidden=true;
     note.textContent='Checkout isn’t open yet — check back soon.';
-  }else if(checkoutLive){
+  }else if(checkoutLive&&delivered){
     note.textContent='Redirecting to secure checkout…';
   }else{
     note.textContent='Checkout isn’t open yet. We have your brief and will email you a payment link at '+email+'.';
   }
 
-  if(checkoutLive) setTimeout(()=>{window.location.href=link;},2500);
+  /* Orphan-payment guard: payment hand-off requires a brief we actually captured. */
+  if(checkoutLive&&delivered) setTimeout(()=>{window.location.href=link;},2500);
 });
 
 paintCards();paintSummary();
