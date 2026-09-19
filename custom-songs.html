@@ -763,8 +763,8 @@ document.querySelectorAll('.demo-wave').forEach(w=>{let h='';for(let i=0;i<28;i+
    the separate lead pipeline used by index.html and services.html.
    ═══════════════════════════════════════════════════════════════ */
 
-/* Make webhook — receives the order brief as JSON. */
-const BRIEF_ENDPOINT='https://hook.us2.make.com/ix9fsncfw64hvzvkuamkvy3ug37p3795';
+/* Supabase edge function — receives the order brief as JSON. */
+const BRIEF_ENDPOINT='https://bgswqjgswlvdazseyhvu.supabase.co/functions/v1/capture-order';
 
 /* PLACEHOLDER CHECKOUT LINKS — swap when Square is live. */
 const SQUARE_LINKS={
