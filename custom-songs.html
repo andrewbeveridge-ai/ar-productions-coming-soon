@@ -914,7 +914,8 @@ form.addEventListener('submit',async function(e){
   if(endpointLive){
     try{
       const r=await fetch(BRIEF_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(brief)});
-      delivered=r.ok;
+      const j=await r.json().catch(()=>({}));
+      delivered=r.ok&&j&&j.ok===true; // same success contract as capture-lead
     }catch(_){}
     /* Fail closed: no brief captured means no hand-off to payment. */
     if(!delivered){
